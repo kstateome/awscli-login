@@ -162,14 +162,9 @@ def windowsdaemonize(profile, role, expires):
 
     with _NamespacePasser() as worker_argpath:
         # Write an argvector for the worker to the namespace passer
-        worker_argv = (
-            profile.pidfile,  # namespace_path
-            profile.name,
-            profile.ecp_endpoint_url,
-            profile.get_username(),
-            role,
-            expires
-        )
+        worker_argv = {
+            profile.pidfile
+        }
         with open(worker_argpath, 'wb') as f:
             # Use the highest available protocol
             pickle.dump(worker_argv, f, protocol=-1)

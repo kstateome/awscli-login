@@ -10,15 +10,16 @@ from daemoniker._daemonize_windows import _NamespacePasser
 
 def main(pidfile):
     dummy = "Hello World"
-    print(pidfile)
+    print("pidFile = " + pidfile)
     fd = open(pidfile, 'w')
     fd.write("test")
     fd.close()
-    print(os.access(pidfile,os.R_OK))
+    print(os.access(pidfile, os.R_OK))
     os.remove(pidfile)
+    print("pid file cleaned up")
     with Daemonizer() as (is_setup, daemonizer):
         is_parent, dummy = daemonizer(
-           pidfile, dummy
+            pidfile, dummy
         )
         if is_parent:
             print("in parent")
@@ -39,15 +40,14 @@ if __name__ == '__main__':
         with open(argpath, 'rb') as f:
             args = pickle.load(f, fix_imports=True)
         argFile = tempfile.NamedTemporaryFile()
-        worker_argpath = argFile.name+"A"
+        worker_argpath = argFile.name + "A"
         os.environ["__AWS_CLI_WINDAEMON__"] = worker_argpath
         # Write an argvector for the 2nd pass.. Store this in the environment.
         with open(worker_argpath, 'wb') as wf:
             # Use the highest available protocol
             pickle.dump(args, wf, protocol=-1)
-        test = args[0]
-        print(test)
-        main(test)
+        print("args len = " + str(args))
+        main(*args)
     else:
         testFile = os.path.join("C:\\Users\\althor.FC-OME-JEFFERSO", "pyTest.txt")
         f = open(testFile, 'a')
@@ -66,6 +66,4 @@ if __name__ == '__main__':
             f.write("The file was there.. yay?" + argpath)
             f.write("args are" + str(tmpArgs))
             f.close()
-            tmp = tmpArgs[0]
-            main(tmp)
-
+            main(*tmpArgs)
