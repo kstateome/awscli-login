@@ -23,4 +23,5 @@ def main():
 
 
 if __name__ == '__main__':
+    argpath = sys.argv[1]
     main()

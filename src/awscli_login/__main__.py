@@ -172,8 +172,7 @@ def windowsdaemonize(profile, role, expires):
             pickle.dump(worker_argv, f, protocol=-1)
 
         # Create an env for the worker to let it know what to do
-        worker_env = {'__CREATE_DAEMON__': 'True',
-                      '__AWSCLI_LOGIN_DAEMON_PATH__': worker_argpath}
+        worker_env = {}
 
         worker_env.update(_get_clean_env())
         # Figure out the path to the current file
