@@ -38,8 +38,8 @@ if __name__ == '__main__':
     if os.path.exists(argpath):
         with open(argpath, 'rb') as f:
             args = pickle.load(f, fix_imports=True)
-        argFile = tempfile.NamedTemporaryFile(delete=False)
-        worker_argpath = argFile.name
+        argFile = tempfile.NamedTemporaryFile()
+        worker_argpath = argFile.name+"A"
         os.environ["__AWS_CLI_WINDAEMON__"] = worker_argpath
         # Write an argvector for the 2nd pass.. Store this in the environment.
         with open(worker_argpath, 'wb') as wf:
@@ -55,6 +55,14 @@ if __name__ == '__main__':
         if os.path.exists(argpath):
             with open(argpath, 'rb') as ft:
                 tmpArgs = pickle.load(ft, fix_imports=True)
+            with open(argpath, 'r+b') as cleaner:
+                to_erase = cleaner.read()
+                eraser = bytes(len(to_erase))
+                cleaner.seek(0)
+                cleaner.write(eraser)
+                cleaner.close()
+            if os.path.exists(argpath):
+                os.remove(argpath)
             f.write("The file was there.. yay?" + argpath)
             f.write("args are" + str(tmpArgs))
             f.close()
