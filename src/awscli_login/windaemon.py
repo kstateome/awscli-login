@@ -6,12 +6,6 @@ from daemoniker import Daemonizer
 
 def main():
     dummy = "Hello World"
-    pidFile = os.path.join("C:\\Users\\althor.FC-OME-JEFFERSO", "test.pid")
-    testFile = os.path.join("C:\\Users\\althor.FC-OME-JEFFERSO", "pyTest.txt")
-
-
-if __name__ == '__main__':
-    dummy = "Hello World"
     with Daemonizer() as (is_setup, daemonizer):
         is_parent, dummy = daemonizer(
             os.path.join("C:\\Users\\althor.FC-OME-JEFFERSO", "test.pid"), dummy
@@ -26,3 +20,7 @@ if __name__ == '__main__':
             f.write(dummy)
             f.close()
             dummy = "Hello bob"
+
+
+if __name__ == '__main__':
+    main()
