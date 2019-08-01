@@ -163,7 +163,10 @@ def windowsdaemonize(profile, role, expires):
     with _NamespacePasser() as worker_argpath:
         # Write an argvector for the worker to the namespace passer
         worker_argv = (
-            profile,  # namespace_path
+            profile.pidfile,  # namespace_path
+            profile.name,
+            profile.ecp_endpoint_url,
+            profile.get_username(),
             role,
             expires
         )
